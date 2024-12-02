@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.controls.Follower;
+import Math;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -72,7 +73,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    m_robotDrive.arcadeDrive(-m_controller.getLeftY(), -m_controller.getRightX());
+    m_robotDrive.arcadeDrive(-m_controller.getLeftY(), (Math.pow(0.1, (1+m_controller.getRightX()))-0.1));
   }
 
   /** This function is called once each time the robot enters test mode. */
