@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    if (m_controller.getRawButtonPressed(1)) {
+    if (m_controller.getRightBumperButtonReleased()) {
       controlMode += 1;
     }
     if (controlMode >= 2) {
