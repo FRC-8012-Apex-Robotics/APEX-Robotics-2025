@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive =
       new DifferentialDrive(m_leftDrive::set, m_rightDrive::set);
   private final XboxController m_controller = new XboxController(0);
+  private int controlMode = 0;
   private final Timer m_timer = new Timer();
 
   public Robot() {
@@ -73,8 +74,20 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    double turn = -m_controller.getLeftX();
-    m_robotDrive.arcadeDrive(-m_controller.getLeftY(), (Math.pow(0.1, (1-turn))+Math.pow(0.1, (1+turn)) - 0.2));
+    if (m_controller.getRawButtonPressed(1)) {
+      controlMode += 1;
+    }
+    if (controlMode >= 2) {
+      controlMode = 0;
+    }
+    if (controlMode = 1) {
+      double turn = -m_controller.getLeftX();
+      m_robotDrive.arcadeDrive(-m_controller.getLeftY(), (Math.pow(0.1, (1-turn))+Math.pow(0.1, (1+turn)) - 0.2));
+    }
+    if (controlMode = 0) {
+      double turn = -m_controller.getRightX();
+      m_robotDrive.arcadeDrive(-m_controller.getLeftY(), (Math.pow(0.1, (1-turn))+Math.pow(0.1, (1+turn)) - 0.2));
+    }
   }
 
   /** This function is called once each time the robot enters test mode. */
