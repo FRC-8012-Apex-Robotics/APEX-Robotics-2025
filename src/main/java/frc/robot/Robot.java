@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
     if (m_controller.getRightBumperButtonReleased()) {
       controlMode += 1;
     }
-    if (controlMode >= 2) {
+    if (controlMode >= 3) {
       controlMode = 0;
     }
     if (controlMode = 1) {
@@ -87,6 +87,10 @@ public class Robot extends TimedRobot {
     if (controlMode = 0) {
       double turn = -m_controller.getRightX();
       m_robotDrive.arcadeDrive(-m_controller.getLeftY(), (Math.pow(0.1, (1-turn))+Math.pow(0.1, (1+turn)) - 0.2));
+    }
+    if (controlMode = 2) {
+      double turn = -m_controller.getLeftX();
+      m_robotDrive.arcadeDrive(m_controller.getRightTriggerAxis()-m_controller.getLeftTriggerAxis(), (Math.pow(0.1, (1-turn))+Math.pow(0.1, (1+turn)) - 0.2));
     }
   }
 
