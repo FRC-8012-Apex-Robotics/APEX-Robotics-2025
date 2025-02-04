@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.controls.Follower;
-import Math;
+import java.lang.Math;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -80,15 +80,15 @@ public class Robot extends TimedRobot {
     if (controlMode >= 3) {
       controlMode = 0;
     }
-    if (controlMode = 1) {
+    if (controlMode == 1) {
       double turn = -m_controller.getLeftX();
       m_robotDrive.arcadeDrive(-m_controller.getLeftY(), (Math.pow(0.1, (1-turn))+Math.pow(0.1, (1+turn)) - 0.2));
     }
-    if (controlMode = 0) {
+    if (controlMode == 0) {
       double turn = -m_controller.getRightX();
       m_robotDrive.arcadeDrive(-m_controller.getLeftY(), (Math.pow(0.1, (1-turn))+Math.pow(0.1, (1+turn)) - 0.2));
     }
-    if (controlMode = 2) {
+    if (controlMode == 2) {
       double turn = -m_controller.getLeftX();
       m_robotDrive.arcadeDrive(m_controller.getRightTriggerAxis()-m_controller.getLeftTriggerAxis(), (Math.pow(0.1, (1-turn))+Math.pow(0.1, (1+turn)) - 0.2));
     }
