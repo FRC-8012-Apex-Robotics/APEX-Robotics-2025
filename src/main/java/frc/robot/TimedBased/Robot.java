@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.TimedBased;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    if (m_controller.getRBumperButtonReleased()) {
+    if (m_controller.getRightBumperReleased()) {
       controlMode += 1;
     }
     if (controlMode >= 3) {
