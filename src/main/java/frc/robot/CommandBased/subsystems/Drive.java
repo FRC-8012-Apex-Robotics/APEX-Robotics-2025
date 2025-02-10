@@ -4,6 +4,8 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -15,6 +17,7 @@ public class Drive extends SubsystemBase{
     private final TalonFX m_rightDrive = new TalonFX(1);
     private final TalonFX m_leftFollow = new TalonFX(2);
     private final TalonFX m_rightFollow = new TalonFX(3);
+    private final TalonFXConfiguration ghibusConfig = new TalonFXConfiguration();
     private final DifferentialDrive m_robotDrive =
       new DifferentialDrive(m_leftDrive::set, m_rightDrive::set);
 
@@ -22,7 +25,9 @@ public class Drive extends SubsystemBase{
         SendableRegistry.addChild(m_robotDrive, m_leftDrive);
         SendableRegistry.addChild(m_robotDrive, m_rightDrive);
 
-        m_rightDrive.setInverted(true);
+        ghibusConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+        m_rightDrive.getConfigurator().apply(ghibusConfig);
         m_leftFollow.setControl(new Follower(m_leftDrive.getDeviceID(), false));
         m_rightFollow.setControl(new Follower(m_rightDrive.getDeviceID(), false));
     }
@@ -30,5 +35,5 @@ public class Drive extends SubsystemBase{
     public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
         return run(() -> m_robotDrive.arcadeDrive(fwd.getAsDouble(), rot.getAsDouble())).withName("arcadeGhibus");
     }
-    
+
 }
