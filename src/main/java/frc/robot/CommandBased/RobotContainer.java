@@ -17,6 +17,7 @@ public class RobotContainer {
             );
 
         m_generic.button(1).onTrue(m_intake.armDown());
+        m_generic.button(2).onTrue(m_intake.armUp());
     }
     
 }

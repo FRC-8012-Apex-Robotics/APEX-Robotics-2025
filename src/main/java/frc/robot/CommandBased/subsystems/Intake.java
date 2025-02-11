@@ -24,4 +24,13 @@ public class Intake extends SubsystemBase {
             m_arm.stopMotor();
         });
     }
+
+    public Command armUp(){
+        return runOnce(() -> {
+            while (m_arm.getEncoder().getPosition() > 0.1){
+                m_arm.set(-0.4);
+            }
+            m_arm.stopMotor();
+        });
+    }
 }
