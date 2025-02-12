@@ -7,13 +7,16 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends SubsystemBase {
-    private final SparkMax m_arm = new SparkMax(6, MotorType.kBrushless);
+    private final SparkMax m_arm = new SparkMax(4, MotorType.kBrushless);
+    private final Timer intakeTimer = new Timer();
 
     public Intake(){
         m_arm.getEncoder().setPosition(0);
-        m_arm.set(0.5);
+        m_arm.stopMotor();
     }
 
     public Command armDown(){
@@ -22,6 +25,8 @@ public class Intake extends SubsystemBase {
                 m_arm.set(0.4);
             }
             m_arm.stopMotor();
+        
+            SmartDashboard.putString("ArmDown Command Activated (button 1 pressed)", "yes");
         });
     }
 
@@ -32,5 +37,9 @@ public class Intake extends SubsystemBase {
             }
             m_arm.stopMotor();
         });
+    }
+
+    public void armControl(double speed) {
+        m_arm.set(speed);
     }
 }

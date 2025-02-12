@@ -33,7 +33,7 @@ public class Drive extends SubsystemBase{
     }
 
     public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
-        return run(() -> m_robotDrive.arcadeDrive(fwd.getAsDouble(), rot.getAsDouble())).withName("arcadeGhibus");
+        return run(() -> m_robotDrive.arcadeDrive(fwd.getAsDouble(), rot.getAsDouble(), true)).withName("arcadeGhibus");
     }
 
 }
