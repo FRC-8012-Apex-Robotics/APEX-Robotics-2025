@@ -1,5 +1,7 @@
 package frc.robot.CommandBased.subsystems;
 
-public class Autonomous extends Subsystem {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class Autonomous extends SubsystemBase {
 
 }
