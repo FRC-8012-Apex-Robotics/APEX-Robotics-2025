@@ -16,7 +16,13 @@ public class Intake extends SubsystemBase {
 
     public Intake(){
         m_arm.getEncoder().setPosition(0);
-        m_arm.stopMotor();
+
+        setDefaultCommand(
+            runOnce(() -> {
+                m_arm.stopMotor();
+            })
+            .andThen(() -> {}).withName("Idle")
+        );
     }
 
     public Command armDown(){
@@ -26,7 +32,7 @@ public class Intake extends SubsystemBase {
             }
             m_arm.stopMotor();
         
-            SmartDashboard.putString("ArmDown Command Activated (button 1 pressed)", "yes");
+            SmartDashboard.putString("Arm Position", "down");
         });
     }
 
@@ -36,6 +42,8 @@ public class Intake extends SubsystemBase {
                 m_arm.set(-0.4);
             }
             m_arm.stopMotor();
+
+            SmartDashboard.putString("Arm Position", "up");
         });
     }
 
