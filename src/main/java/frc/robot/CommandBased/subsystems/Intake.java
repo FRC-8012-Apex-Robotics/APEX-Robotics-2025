@@ -17,7 +17,7 @@ public class Intake extends SubsystemBase {
 
     public Intake(){
         m_arm.getEncoder().setPosition(0);
-        SmartDashboard.putDouble("Arm Speed", 0.4);
+        SmartDashboard.putNumber("Arm Speed", 0.4);
 
         setDefaultCommand(
             runOnce(() -> {
@@ -30,7 +30,7 @@ public class Intake extends SubsystemBase {
     public Command armDown(){
         return runOnce(() -> {
             while (m_arm.getEncoder().getPosition() < 0.6){
-                m_arm.set(SmartDashboard.getDouble("Arm Speed"));
+                m_arm.set(SmartDashboard.getNumber("Arm Speed", 0));
             }
             m_arm.stopMotor();
         
@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase {
     public Command armUp(){
         return runOnce(() -> {
             while (m_arm.getEncoder().getPosition() > 0.1){
-                m_arm.set(SmartDashboard.getDouble("Arm Speed"));
+                m_arm.set(SmartDashboard.getNumber("Arm Speed",0));
             }
             m_arm.stopMotor();
 
