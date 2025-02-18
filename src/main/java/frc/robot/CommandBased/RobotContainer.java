@@ -16,7 +16,7 @@ public class RobotContainer {
     public void configureBindings(){
         m_drive.setDefaultCommand(
             m_drive.arcadeDriveCommand(
-            () -> 0.76*m_generic.getRawAxis(1), () -> -0.30*m_generic.getRawAxis(2))
+            () -> 0.76*m_generic.getRawAxis(1), () -> -0.6*m_generic.getRawAxis(2))
             );
 
 
