@@ -26,6 +26,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand(){
-        return m_drive.driveForTime(1.0, 0.5);
+        return m_drive.driveForTime(1.0, -0.25);
     }
 }

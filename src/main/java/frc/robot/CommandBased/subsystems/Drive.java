@@ -10,6 +10,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -40,14 +41,18 @@ public class Drive extends SubsystemBase{
 
     public Command driveForTime(Double time, Double speed) {
         return runOnce(() -> {
-            autoTimer.reset();
-            autoTimer.start();
-        }).andThen(() -> {
-            m_robotDrive.arcadeDrive(speed, 0);
-        }).until(
+            autoTimer.restart();
+            SmartDashboard.putString("auton started", "yes");
+            SmartDashboard.putString("auton stopped", "no");
+            SmartDashboard.putNumber("auton timer", autoTimer.get());
+        }).andThen(run(() ->
+            m_robotDrive.arcadeDrive(speed, 0)
+        )).until(
             () -> autoTimer.get() >= time
         ).finallyDo(() -> {
             m_robotDrive.stopMotor();
+            SmartDashboard.putString("auton stopped", "yes");
+            SmartDashboard.putNumber("auton timer", autoTimer.get());
         });
     }
 }
