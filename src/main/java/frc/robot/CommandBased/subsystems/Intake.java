@@ -28,24 +28,21 @@ public class Intake extends SubsystemBase {
     }
 
     public Command armDown(){
-        return runOnce(() -> {
-            while (m_arm.getEncoder().getPosition() < 0.6){
-                m_arm.set(SmartDashboard.getNumber("Arm Speed", 0));
-            }
+        return run(() -> m_arm.set(SmartDashboard.getNumber("Arm Speed", 0.4)))
+        .until(() -> m_arm.getEncoder().getPosition() > 0.6)
+        .finallyDo(() -> {
             m_arm.stopMotor();
-        
             SmartDashboard.putString("Arm Position", "down");
         });
     }
 
     public Command armUp(){
-        return runOnce(() -> {
-            while (m_arm.getEncoder().getPosition() > 0.1){
-                m_arm.set(SmartDashboard.getNumber("Arm Speed",0));
-            }
+        return run(() -> m_arm.set(-SmartDashboard.getNumber("Arm Speed",0.4)))
+        .until(() -> m_arm.getEncoder().getPosition() < 0.1)
+        .finallyDo(() -> {
             m_arm.stopMotor();
-
             SmartDashboard.putString("Arm Position", "up");
         });
+        
     }
 }

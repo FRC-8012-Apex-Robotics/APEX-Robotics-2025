@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class Drive extends SubsystemBase{
-    private final Timer autoTimer = new Timer();
+    private final Timer driveTimer = new Timer();
     private final TalonFX m_leftDrive = new TalonFX(0);
     private final TalonFX m_rightDrive = new TalonFX(1);
     private final TalonFX m_leftFollow = new TalonFX(2);
@@ -41,18 +41,13 @@ public class Drive extends SubsystemBase{
 
     public Command driveForTime(Double time, Double speed) {
         return runOnce(() -> {
-            autoTimer.restart();
-            SmartDashboard.putString("auton started", "yes");
-            SmartDashboard.putString("auton stopped", "no");
-            SmartDashboard.putNumber("auton timer", autoTimer.get());
+            driveTimer.restart();
         }).andThen(run(() ->
-            m_robotDrive.arcadeDrive(speed, 0)
+            m_robotDrive.arcadeDrive(-speed, 0)
         )).until(
-            () -> autoTimer.get() >= time
+            () -> driveTimer.get() >= time
         ).finallyDo(() -> {
             m_robotDrive.stopMotor();
-            SmartDashboard.putString("auton stopped", "yes");
-            SmartDashboard.putNumber("auton timer", autoTimer.get());
         });
     }
 }
