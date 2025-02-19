@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
         .until(() -> m_arm.getEncoder().getPosition() > 0.6)
         .finallyDo(() -> {
             m_arm.stopMotor();
-            SmartDashboard.putString("Arm Position", "down");
+            SmartDashboard.putString("Arm Position", "down"); 
         });
     }
 
