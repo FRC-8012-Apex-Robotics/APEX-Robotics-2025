@@ -30,7 +30,7 @@ public class Drive extends SubsystemBase{
 
         ghibusConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-        m_rightDrive.getConfigurator().apply(ghibusConfig);
+        m_leftDrive.getConfigurator().apply(ghibusConfig);
         m_leftFollow.setControl(new Follower(m_leftDrive.getDeviceID(), false));
         m_rightFollow.setControl(new Follower(m_rightDrive.getDeviceID(), false));
     }
@@ -43,7 +43,7 @@ public class Drive extends SubsystemBase{
         return runOnce(() -> {
             driveTimer.restart();
         }).andThen(run(() ->
-            m_robotDrive.arcadeDrive(-speed, 0)
+            m_robotDrive.arcadeDrive(speed, 0)
         )).until(
             () -> driveTimer.get() >= time
         ).finallyDo(() -> {
