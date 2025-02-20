@@ -28,7 +28,7 @@ public class Drive extends SubsystemBase{
         SendableRegistry.addChild(m_robotDrive, m_leftDrive);
         SendableRegistry.addChild(m_robotDrive, m_rightDrive);
 
-        ghibusConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        ghibusConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
         m_leftDrive.getConfigurator().apply(ghibusConfig);
         m_leftFollow.setControl(new Follower(m_leftDrive.getDeviceID(), false));
@@ -36,14 +36,14 @@ public class Drive extends SubsystemBase{
     }
 
     public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
-        return run(() -> m_robotDrive.arcadeDrive(fwd.getAsDouble(), rot.getAsDouble(), true)).withName("arcadeGhibus");
+        return run(() -> m_robotDrive.arcadeDrive(-fwd.getAsDouble(), -rot.getAsDouble(), true)).withName("arcadeGhibus");
     }
 
     public Command driveForTime(Double time, Double speed) {
         return runOnce(() -> {
             driveTimer.restart();
         }).andThen(run(() ->
-            m_robotDrive.arcadeDrive(speed, 0)
+            m_robotDrive.arcadeDrive(-speed, 0)
         )).until(
             () -> driveTimer.get() >= time
         ).finallyDo(() -> {
