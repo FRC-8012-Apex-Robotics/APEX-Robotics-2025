@@ -26,4 +26,9 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.schedule();
         }
     }
+
+    @Override 
+    public void testInit() {
+        m_container.resetIntakePosition();
+    }
 }
