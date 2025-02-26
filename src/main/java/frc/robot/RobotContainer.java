@@ -25,10 +25,19 @@ public class RobotContainer {
         m_generic.button(2).onTrue(m_intake.armDown());
         m_generic.button(1).onTrue(m_intake.armUp());
         m_generic.button(3).whileTrue(m_intake.spinIntakeIn());
+        m_generic.button(4).whileTrue(m_intake.spinIntakeOut());
     }
 
     public Command getAutonomousCommand(){
         return m_autonomous.goToReef(m_generic, m_drive);
+    }
+
+    public Drive getDrive() {
+        return m_drive;
+    }
+
+    public Intake getIntake() {
+        return m_intake;
     }
 
     public void resetIntakePosition() {

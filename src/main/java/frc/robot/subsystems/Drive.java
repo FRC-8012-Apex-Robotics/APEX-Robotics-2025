@@ -3,11 +3,14 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +27,11 @@ public class Drive extends SubsystemBase{
     private final DifferentialDrive m_robotDrive =
       new DifferentialDrive(m_leftDrive::set, m_rightDrive::set);
 
+    private final DifferentialDriveOdometry m_odometry;
+    private final Pigeon2 m_pigeon = new Pigeon2(12);
+
+    private final Encoder m_leftEncoder = new Encoder(null, null);
+
     public Drive() {
         SendableRegistry.addChild(m_robotDrive, m_leftDrive);
         SendableRegistry.addChild(m_robotDrive, m_rightDrive);
@@ -33,6 +41,8 @@ public class Drive extends SubsystemBase{
         m_leftDrive.getConfigurator().apply(ghibusConfig);
         m_leftFollow.setControl(new Follower(m_leftDrive.getDeviceID(), false));
         m_rightFollow.setControl(new Follower(m_rightDrive.getDeviceID(), false));
+
+        m_odometry = new DifferentialDriveOdometry(null, null, null);
     }
 
     public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {

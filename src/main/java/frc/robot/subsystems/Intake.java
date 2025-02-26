@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase {
     private final SparkMax m_arm = new SparkMax(4, MotorType.kBrushless);
     private final SparkMax m_intake = new SparkMax(5, MotorType.kBrushless);
     private final Timer intakeTimer = new Timer();
-    private final PIDController armPID = new PIDController(0.05, 0, 0.001);
+    private final PIDController armPID = new PIDController(2, 0, 0.001);
 
 
     public Intake(){
@@ -39,12 +39,12 @@ public class Intake extends SubsystemBase {
             run(() ->{
                 SmartDashboard.putNumber("Alternate Encoder", m_arm.getAlternateEncoder().getPosition());
 
-                SmartDashboard.putNumber("Arm Current Position", m_arm.getEncoder().getPosition());
+                SmartDashboard.putNumber("Arm Current Position", m_arm.getAlternateEncoder().getPosition());
                 m_intake.stopMotor();
                 SmartDashboard.putNumber("PID Setpoint", armPID.getSetpoint());
 
                 double pidCalc = MathUtil.clamp(
-                    armPID.calculate(m_arm.getEncoder().getPosition(), SmartDashboard.getNumber("Arm Position", 0)),
+                    armPID.calculate(m_arm.getAlternateEncoder().getPosition(), SmartDashboard.getNumber("Arm Position", 0.1)),
                     -SmartDashboard.getNumber("Arm Speed", 0.4), 
                     SmartDashboard.getNumber("Arm Speed", 0.4)
                 );
@@ -63,7 +63,7 @@ public class Intake extends SubsystemBase {
             SmartDashboard.putString("Arm Position", "down"); 
         });*/
         return runOnce(() -> {
-            SmartDashboard.putNumber("Arm Position", 100);
+            SmartDashboard.putNumber("Arm Position", 0.33);
         });
     }
 
@@ -75,7 +75,7 @@ public class Intake extends SubsystemBase {
             SmartDashboard.putString("Arm Position", "up");
         });*/
         return runOnce(() -> {
-            SmartDashboard.putNumber("Arm Position", 0.1);
+            SmartDashboard.putNumber("Arm Position", 0.01);
         });
     }
 
@@ -86,6 +86,11 @@ public class Intake extends SubsystemBase {
     public Command spinIntakeIn() {
         return run(() -> {
             m_intake.set(-SmartDashboard.getNumber("Intake Speed", 0.5));
+        }).finallyDo(() -> m_intake.stopMotor());
+    }
+    public Command spinIntakeOut() {
+        return run(() -> {
+            m_intake.set(SmartDashboard.getNumber("Intake Speed", 0.5));
         }).finallyDo(() -> m_intake.stopMotor());
     }
 }

@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         sendableChooser = new SendableChooser<Command>();
 
-        sendableChooser.addOption("AutoLeft", new AutoLeft());
+        sendableChooser.addOption("AutoLeft", new AutoLeft(m_container.getDrive(), m_container.getIntake()));
         sendableChooser.addOption("AutoMiddle", new AutoMiddle());
         sendableChooser.addOption("AutoRight", new AutoRight());
 
