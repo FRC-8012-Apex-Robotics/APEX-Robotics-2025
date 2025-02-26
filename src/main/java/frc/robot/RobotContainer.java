@@ -1,11 +1,11 @@
-package frc.robot.CommandBased;
+package frc.robot;
 
 import java.time.temporal.IsoFields;
 
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-import frc.robot.CommandBased.subsystems.Drive;
-import frc.robot.CommandBased.subsystems.Intake;
-import frc.robot.CommandBased.subsystems.Autonomous;
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Autonomous;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class RobotContainer {
@@ -22,8 +22,8 @@ public class RobotContainer {
             );
 
 
-        //m_generic.button(2).onTrue(m_intake.armDown());
-        //m_generic.button(1).onTrue(m_intake.armUp());
+        m_generic.button(2).onTrue(m_intake.armDown());
+        m_generic.button(1).onTrue(m_intake.armUp());
         m_generic.button(3).whileTrue(m_intake.spinIntakeIn());
     }
 
