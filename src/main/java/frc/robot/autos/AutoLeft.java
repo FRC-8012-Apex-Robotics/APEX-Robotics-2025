@@ -7,6 +7,6 @@ import frc.robot.subsystems.Intake;
 public class AutoLeft extends SequentialCommandGroup{
 
     public AutoLeft(Drive drive, Intake intake) {
-        
+        drive.arcadeDriveCommand(null, null);
     }
 }

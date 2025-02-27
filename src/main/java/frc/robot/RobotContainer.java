@@ -1,12 +1,13 @@
 package frc.robot;
 
-import java.time.temporal.IsoFields;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import frc.robot.subsystems.Autonomous;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Autonomous;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autos.*;
 
 public class RobotContainer {
     private final Drive m_drive = new Drive();
@@ -14,6 +15,15 @@ public class RobotContainer {
     private final Autonomous m_autonomous =new Autonomous();
 
     private final CommandGenericHID m_generic = new CommandGenericHID(0);
+    public static SendableChooser<Command> sendableChooser = new SendableChooser<Command>();
+
+    RobotContainer() {
+        sendableChooser.addOption("AutoLeft", new AutoLeft(m_drive, m_intake));
+        sendableChooser.addOption("AutoMiddle", new AutoMiddle());
+        sendableChooser.addOption("AutoRight", new AutoRight());
+
+        SmartDashboard.putData("Auton", sendableChooser);
+    }
 
     public void configureBindings(){
         m_drive.setDefaultCommand(
@@ -29,7 +39,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand(){
-        return m_autonomous.goToReef(m_generic, m_drive);
+        return sendableChooser.getSelected();
     }
 
     public Drive getDrive() {

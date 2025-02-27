@@ -30,8 +30,6 @@ public class Drive extends SubsystemBase{
     private final DifferentialDriveOdometry m_odometry;
     private final Pigeon2 m_pigeon = new Pigeon2(12);
 
-    private final Encoder m_leftEncoder = new Encoder(null, null);
-
     public Drive() {
         SendableRegistry.addChild(m_robotDrive, m_leftDrive);
         SendableRegistry.addChild(m_robotDrive, m_rightDrive);
