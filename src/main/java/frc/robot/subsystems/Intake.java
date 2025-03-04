@@ -17,6 +17,7 @@ public class Intake extends SubsystemBase {
     private final SparkMax m_intake = new SparkMax(5, MotorType.kBrushless);
     private final Timer intakeTimer = new Timer();
     private final PIDController armPID = new PIDController(2, 0, 0.001);
+    private final PIDController spinPID = new PIDController(0.000005, 0, 0);
 
 
     public Intake(){
@@ -51,6 +52,17 @@ public class Intake extends SubsystemBase {
 
                 SmartDashboard.putNumber("PID Calculation", pidCalc);
                 m_arm.set(pidCalc);
+
+                SmartDashboard.putNumber("Intake Current Velocity", m_intake.getEncoder().getVelocity());
+
+                double spinCalc = spinPID.calculate(
+                    m_intake.getEncoder().getVelocity(), 
+                    SmartDashboard.getNumber("Intake Set Velocity", 0)
+                );
+                
+                SmartDashboard.putNumber("PID Velocity", spinCalc/5400);
+
+                m_intake.set(0);
             })
         );
     }
@@ -63,7 +75,7 @@ public class Intake extends SubsystemBase {
             SmartDashboard.putString("Arm Position", "down"); 
         });*/
         return runOnce(() -> {
-            SmartDashboard.putNumber("Arm Position", 0.33);
+            SmartDashboard.putNumber("Arm Position", 0.39);
         });
     }
 
@@ -75,7 +87,7 @@ public class Intake extends SubsystemBase {
             SmartDashboard.putString("Arm Position", "up");
         });*/
         return runOnce(() -> {
-            SmartDashboard.putNumber("Arm Position", 0.01);
+            SmartDashboard.putNumber("Arm Position", 0.05);
         });
     }
 
@@ -85,12 +97,20 @@ public class Intake extends SubsystemBase {
 
     public Command spinIntakeIn() {
         return run(() -> {
-            m_intake.set(-SmartDashboard.getNumber("Intake Speed", 0.5));
-        }).finallyDo(() -> m_intake.stopMotor());
+            
+            SmartDashboard.putNumber("Velocity", m_intake.getEncoder().getVelocity());
+            SmartDashboard.putNumber("Intake Set Velocity", -2600);
+            
+            /*m_intake.set(-0.5);*/
+        }).finallyDo(() -> SmartDashboard.putNumber("Intake Set Velocity", 0) /*m_intake.stopMotor()*/);
     }
     public Command spinIntakeOut() {
         return run(() -> {
-            m_intake.set(SmartDashboard.getNumber("Intake Speed", 0.5));
-        }).finallyDo(() -> m_intake.stopMotor());
+
+            SmartDashboard.putNumber("Velocity", m_intake.getEncoder().getVelocity());
+            SmartDashboard.putNumber("Intake Set Velocity", 2600);
+
+            /*m_intake.set(0.5);*/
+        }).finallyDo(() -> SmartDashboard.putNumber("Intake Set Velocity", 0) /*m_intake.stopMotor()*/);
     }
 }
