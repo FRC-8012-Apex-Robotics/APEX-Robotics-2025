@@ -1,3 +1,12 @@
+/* 
+ * FOR DEPRICATION 
+ * 
+ * Has been replaced by frc.robot.autos
+ * 
+*/
+
+
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
