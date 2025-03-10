@@ -22,7 +22,7 @@ public class Constants {
         public static final double SPIN_P = 0;
         public static final double SPIN_I = 0;
         public static final double SPIN_D = 0;
-        public static final double ARM_UP_POS = 0;
+        public static final double ARM_UP_POS = 0.1;
         public static final double ARM_DOWN_POS = 0.39;
         public static final double ARM_CORAL_POS = 0.001;
     }
