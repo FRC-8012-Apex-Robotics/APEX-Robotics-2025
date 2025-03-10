@@ -1,7 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
@@ -11,6 +13,7 @@ import frc.robot.autos.*;
 public class RobotContainer {
     private final Drive m_drive = new Drive();
     private final Intake m_intake = new Intake();
+    private final AutoLeft m_auto = new AutoLeft(m_drive, m_intake);
 
     private final CommandGenericHID m_generic = new CommandGenericHID(0);
     public static SendableChooser<Command> sendableChooser = new SendableChooser<Command>();
@@ -37,7 +40,13 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand(){
-        return sendableChooser.getSelected();
+        DriverStation.reportWarning("Autonomous", false);
+        return Commands.sequence(
+            Commands.waitSeconds(Constants.AutoConstants.WAIT_SECONDS),
+            m_drive.arcadeDriveCommand(() -> Constants.AutoConstants.FORWARD_SPEED, () -> 0.0)
+            .raceWith(Commands.waitSeconds(Constants.AutoConstants.DRIVE_SECONDS)),
+            m_intake.coral()
+        );
     }
 
     public Drive getDrive() {

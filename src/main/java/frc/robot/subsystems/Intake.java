@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -28,7 +29,7 @@ public class Intake extends SubsystemBase {
         m_arm.getAlternateEncoder().setPosition(0);
         
         
-        SmartDashboard.putNumber("Intake Speed", 0.5);
+        SmartDashboard.putNumber("Intake", 0.0);
         SmartDashboard.putNumber("Arm Speed", 0.4);
         SmartDashboard.putNumber("Arm Position", Constants.IntakeConstants.ARM_CORAL_POS);
         
@@ -44,7 +45,7 @@ public class Intake extends SubsystemBase {
                 SmartDashboard.putNumber("Alternate Encoder", m_arm.getAlternateEncoder().getPosition());
 
                 SmartDashboard.putNumber("Arm Current Position", m_arm.getAlternateEncoder().getPosition());
-                m_intake.stopMotor();
+                
                 SmartDashboard.putNumber("PID Setpoint", armPID.getSetpoint());
 
                 double pidCalc = MathUtil.clamp(
@@ -56,14 +57,7 @@ public class Intake extends SubsystemBase {
                 SmartDashboard.putNumber("PID Calculation", pidCalc);
                 m_arm.set(pidCalc);
 
-                /*SmartDashboard.putNumber("Intake Current Velocity", m_intake.getEncoder().getVelocity());
-
-                double spinCalc = spinPID.calculate(
-                    m_intake.getEncoder().getVelocity(), 
-                    SmartDashboard.getNumber("Intake Set Velocity", 0)
-                );
-                
-                SmartDashboard.putNumber("PID Velocity", spinCalc/5400);*/
+                SmartDashboard.putNumber("Intake Current Velocity", m_intake.getEncoder().getVelocity());
 
                 m_intake.stopMotor();
             })
@@ -103,27 +97,29 @@ public class Intake extends SubsystemBase {
             
             /*SmartDashboard.putNumber("Velocity", m_intake.getEncoder().getVelocity());
             SmartDashboard.putNumber("Intake Set Velocity", -2600);*/
-            
-            m_intake.set(-0.5);
+            SmartDashboard.putNumber("Intake", -Constants.IntakeConstants.INTAKE_SPEED);
+            m_intake.set(SmartDashboard.getNumber("Intake", 0.0));
 
-        }).finallyDo(() -> /*SmartDashboard.putNumber("Intake Set Velocity", 0)*/ m_intake.stopMotor());
+        }).finallyDo(() -> SmartDashboard.putNumber("Intake", 0));
     }
     public Command spinIntakeOut() {
         return run(() -> {
 
             /*SmartDashboard.putNumber("Velocity", m_intake.getEncoder().getVelocity());
             SmartDashboard.putNumber("Intake Set Velocity", 2600);*/
-
-            m_intake.set(0.5);
-        }).finallyDo(() -> /*SmartDashboard.putNumber("Intake Set Velocity", 0)*/ m_intake.stopMotor());
+            SmartDashboard.putNumber("Intake", Constants.IntakeConstants.INTAKE_SPEED);
+            m_intake.set(SmartDashboard.getNumber("Intake", 0.0));
+            
+        }).finallyDo(() -> SmartDashboard.putNumber("Intake", 0));
     }
 
     public Command coral() {
-        return run(() -> {
+        return runOnce(() -> {
             SmartDashboard.putNumber("Arm Position", Constants.IntakeConstants.ARM_CORAL_POS);
         }).andThen(Commands.race(run(() -> {
-            m_intake.set(-0.5);
-        }), Commands.waitSeconds(1)
+            DriverStation.reportWarning("Coral", false);
+            m_intake.set(-Constants.IntakeConstants.CORAL_EJECT_SPEED);
+        }), Commands.waitSeconds(5)
         ));
     }
 }

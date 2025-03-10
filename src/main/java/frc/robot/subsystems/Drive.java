@@ -35,14 +35,6 @@ public class Drive extends SubsystemBase{
     private final DifferentialDrive m_robotDrive =
       new DifferentialDrive(m_leftDrive::set, m_rightDrive::set);
 
-    private final Pigeon2 m_pigeon = new Pigeon2(Constants.PIGEON_ID);
-    private final DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(m_pigeon.getRotation2d(), nativeUnitsToDistanceMeters(m_leftDrive.getRotorPosition().getValueAsDouble()), nativeUnitsToDistanceMeters(m_rightDrive.getRotorPosition().getValueAsDouble()));
-    private Pose2d m_pose;
-
-    private final LTVUnicycleController ltvController = new LTVUnicycleController(0.02);
-
-    private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(21.5));
-
     public Drive() {
         SendableRegistry.addChild(m_robotDrive, m_leftDrive);
         SendableRegistry.addChild(m_robotDrive, m_rightDrive);
@@ -61,20 +53,4 @@ public class Drive extends SubsystemBase{
         .withName("arcadeGhibus");
     }
 
-    public void followTrajectory(DifferentialSample sample){
-        
-    }
-
-    @Override
-    public void periodic(){
-        m_pose = m_odometry.update(m_pigeon.getRotation2d(), nativeUnitsToDistanceMeters(m_leftDrive.getRotorPosition().getValueAsDouble()), nativeUnitsToDistanceMeters(m_rightDrive.getRotorPosition().getValueAsDouble()));
-
-    }
-
-    private double nativeUnitsToDistanceMeters(double sensorCounts){
-        double motorRotations = sensorCounts;
-        double wheelRotations = motorRotations / Constants.DriveConstants.ROTOR_WHEEL_RATIO;
-        double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER));
-        return positionMeters;
-    }
 }
