@@ -29,7 +29,7 @@ public class RobotContainer {
     public void configureBindings(){
         m_drive.setDefaultCommand(
             m_drive.arcadeDriveCommand(
-            () -> 0.76*(m_generic.getRawAxis(3) - m_generic.getRawAxis(2)), () -> 0.4*m_generic.getRawAxis(0))
+            () -> 0.61*(m_generic.getRawAxis(3) - m_generic.getRawAxis(2)), () -> 0.4*m_generic.getRawAxis(0))
             );
 
 
@@ -37,6 +37,7 @@ public class RobotContainer {
         m_generic.button(1).onTrue(m_intake.armUp());
         m_generic.button(3).whileTrue(m_intake.spinIntakeIn());
         m_generic.button(4).whileTrue(m_intake.spinIntakeOut());
+        //m_generic.
     }
 
     public Command getAutonomousCommand(){
