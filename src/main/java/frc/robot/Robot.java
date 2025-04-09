@@ -14,6 +14,7 @@ public class Robot extends TimedRobot {
 
     public Robot(){
         m_container.configureBindings();
+        m_container.configXboxBindings();
     }
 
     @Override
