@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,6 +21,7 @@ public class RobotContainer {
     private final CommandGenericHID m_generic = new CommandGenericHID(0);
     private final CommandXboxController m_xbox = new CommandXboxController(1);
     public static SendableChooser<Command> sendableChooser = new SendableChooser<Command>();
+    private final DigitalInput m_proximitySensor = new DigitalInput(9);
 
     RobotContainer() {
         sendableChooser.addOption("AutoLeft", new AutoLeft(m_drive, m_intake));
@@ -33,8 +35,8 @@ public class RobotContainer {
     public void configureBindings(){
         m_drive.setDefaultCommand(
             m_drive.arcadeDriveCommand(
-            () -> 0.61*(m_generic.getRawAxis(3) - m_generic.getRawAxis(2)),
-            () -> 0.4*m_generic.getRawAxis(0))
+            () -> Constants.DriveConstants.MAX_FWD_SPEED*(m_generic.getRawAxis(3) - m_generic.getRawAxis(2)),
+            () -> Constants.DriveConstants.MAX_TURN_SPEED*m_generic.getRawAxis(0))
             );
 
 
@@ -80,5 +82,9 @@ public class RobotContainer {
 
     public void resetIntakePosition() {
         m_intake.resetArmPosition();
+    }
+
+    public void updateProxSensor() {
+        SmartDashboard.putBoolean("Thing Detected?", m_proximitySensor.get());
     }
 }

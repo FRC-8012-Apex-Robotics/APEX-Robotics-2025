@@ -13,7 +13,7 @@ public class Robot extends TimedRobot {
     private final RobotContainer m_container = new RobotContainer();
 
     public Robot(){
-        m_container.configureBindings();
+        //m_container.configureBindings();
         m_container.configXboxBindings();
     }
 
@@ -21,6 +21,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic(){
 
         CommandScheduler.getInstance().run();
+        m_container.updateProxSensor();
     }
 
     @Override

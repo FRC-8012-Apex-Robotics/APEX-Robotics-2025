@@ -11,8 +11,8 @@ public class Constants {
         public static final double ROTOR_WHEEL_RATIO = 8.46;
         public static final double WHEEL_DIAMETER = 6;
 
-        public static final double MAX_FWD_SPEED = 0.61;
-        public static final double MAX_TURN_SPEED = 0.4;
+        public static final double MAX_FWD_SPEED = 0.4;
+        public static final double MAX_TURN_SPEED = 0.3;
         public static final double TRIGGER_DEADBAND = 0.15;
     }
     public class IntakeConstants {
