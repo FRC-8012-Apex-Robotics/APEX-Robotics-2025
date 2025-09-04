@@ -13,10 +13,12 @@ import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autos.*;
 
+
 public class RobotContainer {
     private final Drive m_drive = new Drive();
     private final Intake m_intake = new Intake();
     private final AutoLeft m_auto = new AutoLeft(m_drive, m_intake);
+    private final boolean m_intakeOn = false;
 
     private final CommandGenericHID m_generic = new CommandGenericHID(0);
     private final CommandXboxController m_xbox = new CommandXboxController(1);
@@ -40,7 +42,7 @@ public class RobotContainer {
             );
 
 
-        m_generic.button(2).onTrue(m_intake.armDown());
+        m_generic.button(2).onTrue(m_intake.sequence());
         m_generic.button(1).onTrue(m_intake.armUp());
         m_generic.button(3).whileTrue(m_intake.spinIntakeIn());
         m_generic.button(4).whileTrue(m_intake.spinIntakeOut());

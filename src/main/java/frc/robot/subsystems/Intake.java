@@ -113,6 +113,18 @@ public class Intake extends SubsystemBase {
         }).finallyDo(() -> SmartDashboard.putNumber("Intake", 0));
     }
 
+    public Command sequence(){
+        return run(() -> {
+                if(SmartDashboard.getBoolean("Thing Detected?", true) == true){
+                    armDown();
+                    spinIntakeIn();
+                }
+            }
+            ).finallyDo(() -> {
+                armUp();
+            });
+    }
+
     public Command coral() {
         return runOnce(() -> {
             SmartDashboard.putNumber("Arm Position", Constants.IntakeConstants.ARM_CORAL_POS);
